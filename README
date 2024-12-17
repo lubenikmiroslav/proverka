@@ -6,7 +6,7 @@ This is a simple Flask application.
 
 1. Clone the repository:
     ```
-    git clone https://github.com/lubenikmiroslav/provjerka
+    git clone https://github.com/lubenikmiroslav/proverka
     ```
 2. Navigate to the project directory:
     ```
