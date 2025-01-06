@@ -1,27 +1,10 @@
-# Použij oficiální obraz Node.js jako základ
-FROM node:14
-
-# Instaluj Python
-RUN apt-get update && apt-get install -y python3 python3-pip
-
-# Nastav pracovní adresář v kontejneru
-WORKDIR /usr/src/app
-
-# Zkopíruj package.json a package-lock.json (pokud existuje)
-COPY package*.json ./
-
-# Nainstaluj Node.js závislosti
-RUN npm install
-
-# Zkopíruj requirements.txt a nainstaluj Python závislosti
-COPY requirements.txt ./
-RUN pip3 install -r requirements.txt
-
-# Zkopíruj zbytek zdrojového kódu aplikace
+FROM python:3.10.13-bookworm
+ENV APP /app
+RUN mkdir $APP
+WORKDIR $APP
+EXPOSE 8000
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 COPY . .
-
-# Exponuj port, na kterém aplikace poběží
-EXPOSE 3000
-
-# Definuj příkaz pro spuštění aplikace
-CMD ["python3", "app.py"]
+#CMD ["gunicorn", "-w", "3", "-b", "0.0.0.0:5000", "run:app"]
+CMD ["flask", "run", "--host=0.0.0.0","--port 8000"]
